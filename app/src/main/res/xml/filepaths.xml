@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<paths>
+    <files-path name="logfiles" />
+    <external-path name="extlogfiles" path="Behaviometric" />
+</paths>
