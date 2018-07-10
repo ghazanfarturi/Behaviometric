@@ -30,9 +30,7 @@ public class TouchPoint {
         this.timestamp = other.timestamp;
     }
 
-    public TouchPoint() {
-
-    }
+    public TouchPoint() {}
 
     public boolean isEmpty() {
         return x == null && y == null && pressure == null;

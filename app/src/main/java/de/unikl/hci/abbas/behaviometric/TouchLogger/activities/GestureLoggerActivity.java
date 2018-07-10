@@ -274,7 +274,7 @@ public class GestureLoggerActivity extends Activity {
 
     /**
      *
-     * @return A multi-line report containing basic informationa about the logger software and device hardware
+     * @return A multi-line report containing basic information about the logger software and device hardware
      */
     private String getDeviceReport() {
         StringBuffer buffer = new StringBuffer();

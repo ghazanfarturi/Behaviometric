@@ -15,4 +15,27 @@
     <string name="extra_value_started">STARTED</string>
     <string name="about_title">About Device</string>
     <string name="about_build">About Build</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_next">NEXT SHAPE</string>
+    <string name="main_menu">MAIN MENU</string>
+    <string name="btn_add_user">ADD NEW USER</string>
+    <string name="btn_train_model">TRAIN ML MODEL</string>
+    <string name="btn_test_auth">TEST AUTHENTICATION</string>
+    <string name="getNegativeFeature">Add negative feature vectors</string>
+    <string name="main_test">Test</string>
+    <string name="demo_textview">The current number of users to collect the number of touch: </string>
+    <string name="demp_positive_textview">0</string>
+    <string name="demp_classifyscore_textview">Current score：NULL</string>
+    <string name="lblCurrentSample">Current negative sample number: </string>
+    <string name="negativeTextView">0</string>
+    <string name="lblUserID">UserID</string>
+    <string name="lblFirstName">First Name</string>
+    <string name="lblLastName">Last Name</string>
+    <string name="btn_cancel">CANCEL</string>
+    <string name="lblPerformTouch">Please draw over shape</string>
+    <string name="lblGestureSample">Current Touch Sample Size: </string>
+    <string name="lblWelcome">Welcome to Your Phone</string>
+    <string name="lblAuthenticated">Successfully Authenticated</string>
+    <string name="lblFailed">Failed Attempt</string>
+    <string name="lblTryAgain">Please Try Again</string>
 </resources>
