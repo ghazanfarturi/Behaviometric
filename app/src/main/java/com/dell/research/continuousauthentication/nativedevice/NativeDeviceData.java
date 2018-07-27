@@ -145,7 +145,8 @@ public class NativeDeviceData implements Serializable {
     }
 
     public String toString() {
-        return String.format(Locale.getDefault(), "%s=%d.%06d,%s=0x%02x,%s=0x%02x,%s=0x%08x", NativeDeviceData.DataLabels.time.toString(), this.time, this.timeMicro, NativeDeviceData.DataLabels.type.toString(), this.typeNum, NativeDeviceData.DataLabels.code.toString(), this.codeNum, NativeDeviceData.DataLabels.value.toString(), this.value);
+        //return String.format(Locale.getDefault(), "%s=%d.%06d,%s=0x%02x,%s=0x%02x,%s=0x%08x", NativeDeviceData.DataLabels.time.toString(), this.time, this.timeMicro, NativeDeviceData.DataLabels.type.toString(), this.typeNum, NativeDeviceData.DataLabels.code.toString(), this.codeNum, NativeDeviceData.DataLabels.value.toString(), this.value);
+        return String.format("%d.%06d 0x%02x 0x%02x 0x%08x", this.time, this.timeMicro, this.typeNum, this.codeNum, this.value);
     }
 
     public static void setInputOutputDimensions(int touchMaxX, int touchMaxY, int displayMaxX, int displayMaxY) {
