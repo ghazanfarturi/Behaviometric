@@ -34,7 +34,6 @@
         android:layout_margin="10dp"
         android:layout_gravity="center"
         android:orientation="vertical">
-
         <ImageView
             android:id="@+id/mlFirstScreen"
             android:layout_width="match_parent"

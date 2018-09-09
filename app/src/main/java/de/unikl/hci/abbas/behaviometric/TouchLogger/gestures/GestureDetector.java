@@ -57,7 +57,6 @@ public class GestureDetector extends GestureDetectSource implements TouchEventsS
         }
     }
 
-
     private boolean detectScrollOrSwipe(TouchEvent event) {
         // Assumption: It's not a tap because that was checked before
         TouchPoint first = event.getFirstTouchPoint();
@@ -99,7 +98,6 @@ public class GestureDetector extends GestureDetectSource implements TouchEventsS
                         endClustering = true;
                     }
                 }
-
             }
 
             lastX = x;
@@ -133,7 +131,6 @@ public class GestureDetector extends GestureDetectSource implements TouchEventsS
         }
 
         TouchEvent event = touchEvents.get(0);
-
 
         if (!cleanEvent(event)) {
             return;
@@ -170,7 +167,6 @@ public class GestureDetector extends GestureDetectSource implements TouchEventsS
             Log.w(LOGTAG, "First touch point has no pressure, skipping");
             return false;
         }
-
 
         while (event.getLastTouchPoint() != null && event.getLastTouchPoint().isEmpty()) {
             event.removeLastTouchPoint();

@@ -1,6 +1,7 @@
 package de.unikl.hci.abbas.behaviometric.Demo.activities;
 
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,12 +9,10 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ShareActionProvider;
@@ -28,7 +27,7 @@ import de.unikl.hci.abbas.behaviometric.Demo.util.DataWriter;
 import de.unikl.hci.abbas.behaviometric.R;
 import de.unikl.hci.abbas.behaviometric.TouchLogger.utils.DeviceInfo;
 
-public class TrainModelActivity extends AppCompatActivity {
+public class TrainModelActivity extends Activity implements View.OnClickListener {
 
     private static final class Constants {
         public static final int MAX_DISPLAYED_LINES = 50;
@@ -44,8 +43,10 @@ public class TrainModelActivity extends AppCompatActivity {
 
     ImageView mFirstScreen;
     Button mButtonNext;
-    Spinner spinner;
-    static final String[] users = new String[] {"User0001", "User0002", "User0003","User0004","User0005"};
+    Spinner mSpinner;
+    static final String[] users = new String[] {"User0001", "User0002", "User0003", "User0004", "User0005"};
+    public static String mName;
+    public static String mMode;
 
     boolean mFileState;
     int resourceInc = 0;
@@ -76,6 +77,7 @@ public class TrainModelActivity extends AppCompatActivity {
 
         mFirstScreen = (ImageView) findViewById(R.id.mlFirstScreen);
         mFirstScreen.setImageResource(R.drawable.backward);
+        //mFirstScreen.setImageDrawable(getResources().getDrawable(R.drawable.backward));
 
         LinearLayout ll = (LinearLayout) findViewById(R.id.mlPaintLayout);
 
@@ -89,11 +91,11 @@ public class TrainModelActivity extends AppCompatActivity {
             }
         });
 
-        spinner = (Spinner) findViewById(R.id.spinnerUsers);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        mSpinner = (Spinner) findViewById(R.id.spinnerUsers);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(TrainModelActivity.this,
                 R.layout.support_simple_spinner_dropdown_item, users);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        mSpinner.setAdapter(adapter);
 
         // Modify the service started flag based on the start/stop success messages from the service
         BroadcastReceiver serviceStartedStoppedReceiver = new BroadcastReceiver() {
@@ -112,7 +114,6 @@ public class TrainModelActivity extends AppCompatActivity {
             }
         };
         LocalBroadcastManager.getInstance(this).registerReceiver(serviceStartedStoppedReceiver, new IntentFilter(getResources().getString(R.string.action_status_service)));
-
     }
 
     /**
@@ -121,13 +122,16 @@ public class TrainModelActivity extends AppCompatActivity {
      */
     private void switchMonitor(CompoundButton monitor, boolean isChecked) {
         if (isChecked && !serviceStarted) {
-            writeDeviceInfo();
+            // writeDeviceInfo();
             startLoggerService();
         } else if (!isChecked && serviceStarted) {
             stopLoggerService();
         }
     }
 
+    @Override
+    public void onClick(View view) {
+    }
 
     @Override
     protected void onStart() {
@@ -136,6 +140,8 @@ public class TrainModelActivity extends AppCompatActivity {
         // Initialize the data writer if it hasn't already been
         if(dataWriter == null) {
             try {
+                mName = mSpinner.getSelectedItem().toString();
+                mMode = "train";
                 dataWriter = new DataWriter(this);
             } catch(IOException e) {
                 dataWriter = null;
@@ -175,10 +181,13 @@ public class TrainModelActivity extends AppCompatActivity {
                 if ((v.getId() == R.id.mlbtnNext) && i < 16) {
                     mFirstScreen.setImageResource(resourceId[i]);
                     i++;
+
+                    if (i == 15) {
+                        mButtonNext.setEnabled(false);
+                    }
                 }
             }
         });
-
     }
 
     public void returnToMain(View v) {
@@ -186,7 +195,7 @@ public class TrainModelActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         stopLoggerService();
         startActivity(intent);
-
+        finish();
     }
 
     /**
@@ -195,7 +204,6 @@ public class TrainModelActivity extends AppCompatActivity {
     private void startLoggerService() {
         Intent intent = new Intent(this, DataLoggerService.class);
         intent.putExtra(DataLoggerService.EXTRA_START_SERVICE, true);
-
         startService(intent);
     }
 
@@ -205,7 +213,6 @@ public class TrainModelActivity extends AppCompatActivity {
     private void stopLoggerService() {
         Intent intent = new Intent(this, DataLoggerService.class);
         intent.putExtra(DataLoggerService.EXTRA_START_SERVICE, false);
-
         startService(intent);
     }
 
@@ -233,6 +240,5 @@ public class TrainModelActivity extends AppCompatActivity {
 
         return buffer.toString();
     }
-
 
 }

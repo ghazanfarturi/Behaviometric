@@ -70,7 +70,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Demo.activities.TrainModelActivity"></activity>
+        <activity android:name=".Demo.activities.TrainModelActivity" android:noHistory="true"></activity>
 
         <service android:name=".Demo.services.DataLoggerService"/>
         <provider
@@ -83,7 +83,7 @@
                 android:resource="@xml/filepaths" />
         </provider>
 
-        <activity android:name=".Demo.activities.TestModelActivity" />
+        <activity android:name=".Demo.activities.TestModelActivity" android:noHistory="true" />
         <activity android:name=".Demo.activities.AddNewUserActivity"></activity>
 
     </application>

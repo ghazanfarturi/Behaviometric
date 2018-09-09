@@ -59,7 +59,7 @@ public class DataLoggerService extends Service {
         };
     }
 
-    public static final String EXTRA_START_SERVICE = "GestureLoggerService_START_SERVICE";
+    public static final String EXTRA_START_SERVICE = "DataLoggerService_START_SERVICE";
 
     // Touchscreen, orientation, display, active app, and accelerometer data
     // interfaces
@@ -156,12 +156,14 @@ public class DataLoggerService extends Service {
 
             setupSuccess = true;
 
+            String name = "";
+            String mode = "";
+
             dataWriter = new DataWriter(this);
         } catch (IOException e) {
             setupException = e;
             sendException(e);
         }
-
     }
 
     @Override

@@ -17,6 +17,7 @@
     <string name="about_build">About Build</string>
     <string name="btn_ok">OK</string>
     <string name="btn_next">NEXT SHAPE</string>
+    <string name="btn_test">AUTHENTICATE</string>
     <string name="main_menu">MAIN MENU</string>
     <string name="btn_add_user">ADD NEW USER</string>
     <string name="btn_train_model">TRAIN ML MODEL</string>

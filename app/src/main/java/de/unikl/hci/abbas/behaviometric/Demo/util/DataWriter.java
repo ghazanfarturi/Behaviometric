@@ -1,13 +1,19 @@
 package de.unikl.hci.abbas.behaviometric.Demo.util;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+
+import junit.framework.Test;
 
 import java.io.*;
 import java.util.LinkedList;
 
+import de.unikl.hci.abbas.behaviometric.Demo.activities.TestModelActivity;
+import de.unikl.hci.abbas.behaviometric.Demo.activities.TrainModelActivity;
 import de.unikl.hci.abbas.behaviometric.TouchLogger.utils.DeviceInfo;
 
 public class DataWriter {
@@ -15,7 +21,7 @@ public class DataWriter {
     private File outputFolder = null;
     //private File dataTar = null;
 
-    /**
+     /**
      * Create a new data writer
      * @param c The Android app context that created this writer
      * @throws IOException If there's a problem accessing the destination path
@@ -55,23 +61,21 @@ public class DataWriter {
                 }
             }
         };
-
         new Thread(r).start();
     }
-
 
     /**
      * Write gesture data to a compressed file, overwriting if it already exists
      * @param data List of gesture data lines
-     * @param filename Name of the destination file. Will be placed under /sdcard/Behaviometric/
      */
 
-    public void writeCompressedLoggerData(final LinkedList<LoggerData> data, final String filename) {
+    public void writeCompressedLoggerData(final LinkedList<LoggerData> data) {
         Runnable r = new Runnable() {
             @Override
             public void run() {
                 try {
-                    File outputFile = new File(outputFolder, basename + "_" + filename);
+                    //File outputFile = new File(outputFolder,basename + "_" + filename);
+                    File outputFile = new File(outputFolder, basename);
                     final boolean DONT_APPEND = false;
 
                     FileOutputStream fileOut = new FileOutputStream(outputFile);
@@ -98,6 +102,44 @@ public class DataWriter {
         new Thread(r).start();
     }
 
+    /**
+     * Write gesture data to a compressed file, overwriting if it already exists
+     * @param data List of gesture data lines
+     * @param filename Name of the destination file. Will be placed under /sdcard/Behaviometric/
+     */
+
+    public void writeCompressedLoggerData(final LinkedList<LoggerData> data, final String filename) {
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    File outputFile = new File(outputFolder,basename + "_" + filename);
+                    //File outputFile = new File(outputFolder, basename);
+                    final boolean DONT_APPEND = false;
+
+                    FileOutputStream fileOut = new FileOutputStream(outputFile);
+                    // GZIPOutputStream zipOut = new GZIPOutputStream(fileOut);
+                    // BufferedWriter textOut = new BufferedWriter(new OutputStreamWriter(zipOut, "UTF-8"));
+                    BufferedWriter textOut = new BufferedWriter(new OutputStreamWriter(fileOut));
+
+                    for(LoggerData gld : data) {
+                        String line = String.format("%s%n", gld.toString());
+                        textOut.append(line);
+                    }
+
+                    // textOut.close();
+                    // zipOut.close();
+                    textOut.close();
+
+                    // gatherIntoTar();
+                } catch(IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        new Thread(r).start();
+    }
 
     /**
      *
@@ -162,7 +204,22 @@ public class DataWriter {
         String deviceID = DeviceInfo.isSet() ? DeviceInfo.getRandomID() : Settings.Secure.getString(c.getContentResolver(), Settings.Secure.ANDROID_ID);
         String deviceManufacturer = Build.MANUFACTURER.replaceAll("\\s+", "");
         String deviceModel = Build.MODEL.replaceAll("\\s+", "");
-        basename = String.format("%s_%s--%s", deviceID, deviceManufacturer, deviceModel);
+        //basename = String.format("%s_%s--%s", deviceID, deviceManufacturer, deviceModel);
+
+        String name = "";
+        String mode = "";
+
+        if (TrainModelActivity.mMode != null && !TrainModelActivity.mMode.isEmpty()) {
+            name = TrainModelActivity.mName;
+            mode = TrainModelActivity.mMode;
+        }
+
+        if (TestModelActivity.mModeTest != null && !TestModelActivity.mModeTest.isEmpty()) {
+            name = TestModelActivity.mNameTest;
+            mode = TestModelActivity.mModeTest;
+        }
+
+        basename = String.format("%s_datafile_%s", name, mode);
         //dataTar = new File(outputFolder, basename + ".tar");
     }
 
